@@ -96,7 +96,7 @@ def odomfunc(odom):
 def my_mainfunc():
 	rospy.init_node('lqrpathTrackingcarDemo.py', anonymous=True)
 	rospy.Subscriber('/base_pose_ground_truth' , Odometry, odomfunc)            
-	rospy.Subscriber('path_topic', Path, pathfunc)
+	rospy.Subscriber('/path_topic', Path, pathfunc)
 
 
 	instance = rospy.Publisher('prius', Control, queue_size=10)

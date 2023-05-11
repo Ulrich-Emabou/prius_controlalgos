@@ -9,6 +9,8 @@ from scipy.spatial import KDTree
 from scipy.linalg import solve_discrete_are                                                                
 from scipy.signal import cont2discrete, lti, dlti, dstep
 from tf.transformations import euler_from_quaternion 
+from nav_msgs.msg import Path
+from geometry_msgs.msg import PoseStamped
 
 import matplotlib.pyplot as plt																								
 
@@ -98,7 +100,7 @@ def my_mainfunc():
 	rospy.Subscriber('/base_pose_ground_truth' , Odometry, odomfunc)            
 	rospy.Subscriber('/path_topic', Path, pathfunc)
 
-
+ 
 	instance = rospy.Publisher('prius', Control, queue_size=10)
 
 	rate = rospy.Rate(10)
@@ -155,10 +157,10 @@ def my_mainfunc():
 		ecg,close_index = KDTree(path).query(np.array([xm,ym])) 					 
 
 																				
-		if close_index == total_path_points:
-			theta_path = math.atan( (path[close_index][1]-path[close_index-1][1]) / (path[close_index][0]-path[close_index-1][0]+ 1e-10) )   
-		else:
-			theta_path = math.atan( (path[close_index+1][1]-path[close_index][1]) / (path[close_index+1][0]-path[close_index][0]+ 1e-10) )     
+		#if close_index == total_path_points:
+		theta_path = math.atan( (path[close_index][1]-path[close_index-1][1]) / (path[close_index][0]-path[close_index-1][0]+ 1e-10) )   
+		#else:
+		#	theta_path = math.atan( (path[close_index+1][1]-path[close_index][1]) / (path[close_index+1][0]-path[close_index][0]+ 1e-10) )     
 
 		theta_e = theta_path - theta
 
